@@ -43,6 +43,7 @@ export function LoginPage() {
             Sign in
           </Button>
           <Link to="/register">Need an account? Register</Link>
+          <Link to="/forgot-password">Forgot your password?</Link>
         </Stack>
       </form>
     </Container>
