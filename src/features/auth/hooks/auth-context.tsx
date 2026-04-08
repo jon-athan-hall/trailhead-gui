@@ -14,6 +14,12 @@ export interface AuthContextValue {
   setSession: (res: AuthResponse) => void;
   /** Clear all auth state (called on logout). */
   clearSession: () => void;
+  /**
+   * Patch the locally-cached user (e.g. after a profile update). The JWT
+   * still holds the old claims until the next refresh, but the UI updates
+   * immediately.
+   */
+  updateUser: (patch: Partial<AuthUser>) => void;
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
@@ -42,6 +48,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
+  // Functional update so concurrent patches compose. Patches are dropped
+  // when there's no current user — nothing valid to merge into.
+  const updateUser = useCallback((patch: Partial<AuthUser>) => {
+    setUser((prev) => (prev ? { ...prev, ...patch } : prev));
+  }, []);
+
   // Register the refresh handler used by the API client's 401 interceptor,
   // and try to rehydrate the session on mount.
   useEffect(() => {
@@ -68,9 +80,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated: user !== null,
       isLoading,
       setSession,
-      clearSession
+      clearSession,
+      updateUser
     }),
-    [user, isLoading, setSession, clearSession]
+    [user, isLoading, setSession, clearSession, updateUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -21,7 +21,8 @@ const defaultAuth: AuthContextValue = {
   isAuthenticated: false,
   isLoading: false,
   setSession: () => {},
-  clearSession: () => {}
+  clearSession: () => {},
+  updateUser: () => {}
 };
 
 export function makeAuthValue(overrides: Partial<AuthContextValue> = {}): AuthContextValue {
