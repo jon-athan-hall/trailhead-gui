@@ -7,11 +7,16 @@ import { VerifyEmailPage } from '../verify-email-page';
 
 const { verifyMock } = vi.hoisted(() => ({ verifyMock: vi.fn() }));
 vi.mock('../../features/auth/api/use-verify-email', async () => {
-  const { useMutation } = await import('@tanstack/react-query');
+  const { useQuery } = await import('@tanstack/react-query');
   return {
     verifyEmailRequest: (token: string) => verifyMock(token),
-    useVerifyEmailMutation: () =>
-      useMutation({ mutationFn: (token: string) => verifyMock(token) })
+    useVerifyEmailQuery: (token: string | null) =>
+      useQuery({
+        queryKey: ['auth', 'verify', token],
+        queryFn: () => verifyMock(token),
+        enabled: token !== null,
+        retry: false
+      })
   };
 });
 

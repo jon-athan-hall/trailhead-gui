@@ -1,25 +1,17 @@
 import { Alert, Button, Container, Loader, Stack, Title } from '@mantine/core';
-import { useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useVerifyEmailMutation } from '../features/auth/api/use-verify-email';
+import { useVerifyEmailQuery } from '../features/auth/api/use-verify-email';
 import { ApiError } from '../shared/api/errors';
 
 export function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
-  const verifyMutation = useVerifyEmailMutation();
-  const firedRef = useRef(false);
-
-  useEffect(() => {
-    if (!token || firedRef.current) return;
-    firedRef.current = true;
-    verifyMutation.mutate(token);
-  }, [token, verifyMutation]);
+  const verifyQuery = useVerifyEmailQuery(token);
 
   const errorMessage =
-    verifyMutation.error instanceof ApiError
-      ? verifyMutation.error.message
-      : verifyMutation.isError
+    verifyQuery.error instanceof ApiError
+      ? verifyQuery.error.message
+      : verifyQuery.isError
         ? 'Verification failed'
         : null;
 
@@ -30,8 +22,8 @@ export function VerifyEmailPage() {
         {!token && (
           <Alert color="red">Missing verification token. Check the link in your email.</Alert>
         )}
-        {token && verifyMutation.isPending && <Loader />}
-        {verifyMutation.isSuccess && (
+        {token && verifyQuery.isPending && <Loader />}
+        {verifyQuery.isSuccess && (
           <>
             <Alert color="green">Your email has been verified.</Alert>
             <Button component={Link} to="/login">
