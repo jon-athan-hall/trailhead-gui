@@ -6,9 +6,10 @@ import { ApiError } from '../../shared/api/errors';
 import { renderWithProviders } from '../../test/render';
 import { ProfilePage } from '../profile-page';
 
-const { updateMock, changePasswordMock } = vi.hoisted(() => ({
+const { updateMock, changePasswordMock, resendMock } = vi.hoisted(() => ({
   updateMock: vi.fn(),
-  changePasswordMock: vi.fn()
+  changePasswordMock: vi.fn(),
+  resendMock: vi.fn()
 }));
 
 vi.mock('../../features/users/api/use-update-user', async () => {
@@ -29,9 +30,18 @@ vi.mock('../../features/users/api/use-change-password', async () => {
   };
 });
 
+vi.mock('../../features/auth/api/use-resend-verification', async () => {
+  const { useMutation } = await import('@tanstack/react-query');
+  return {
+    resendVerificationRequest: () => resendMock(),
+    useResendVerificationMutation: () => useMutation({ mutationFn: () => resendMock() })
+  };
+});
+
 afterEach(() => {
   updateMock.mockReset();
   changePasswordMock.mockReset();
+  resendMock.mockReset();
 });
 
 const baseUser: AuthUser = {
@@ -169,5 +179,28 @@ describe('ProfilePage', () => {
     fireEvent.change(getByPath('confirmPassword'), { target: { value: 'newpassword1' } });
     submitWithin(/update password/i);
     expect(await screen.findByText('Current password is incorrect')).toBeInTheDocument();
+  });
+
+  it('shows a Verified badge when the user is verified', () => {
+    renderProfile();
+    expect(screen.getByText('Verified')).toBeInTheDocument();
+    expect(screen.queryByText(/email not verified/i)).not.toBeInTheDocument();
+  });
+
+  it('shows a Not verified badge and resend banner when the user is unverified', () => {
+    renderProfile({ ...baseUser, verified: false });
+    expect(screen.getByText('Not verified')).toBeInTheDocument();
+    expect(screen.getByText(/email not verified/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /resend verification email/i })
+    ).toBeInTheDocument();
+  });
+
+  it('calls the resend mutation when the resend button is clicked', async () => {
+    resendMock.mockResolvedValue({ message: 'ok' });
+    renderProfile({ ...baseUser, verified: false });
+    fireEvent.click(screen.getByRole('button', { name: /resend verification email/i }));
+    await waitFor(() => expect(resendMock).toHaveBeenCalled());
+    expect(await screen.findByText(/new verification email has been sent/i)).toBeInTheDocument();
   });
 });

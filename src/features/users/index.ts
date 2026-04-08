@@ -10,6 +10,7 @@ export { ChangePasswordForm } from './components/change-password-form';
 export { UsersTable } from './components/users-table';
 export { UserRolesModal, type RoleOption } from './components/user-roles-modal';
 export { DeleteUserConfirm } from './components/delete-user-confirm';
+export { UserVerifiedBadge } from './components/user-verified-badge';
 export type {
   UserResponse,
   UpdateUserRequest,

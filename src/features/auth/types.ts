@@ -32,6 +32,7 @@ export interface JwtClaims {
   email: string;
   name: string;
   roles: string[];
+  verified: boolean;
   iss: string;
   iat: number;
   exp: number;
@@ -43,10 +44,5 @@ export interface AuthUser {
   name: string;
   email: string;
   roles: string[];
-  /**
-   * Whether the user has verified their email. Note: this is NOT in the JWT
-   * claims — it has to be fetched separately via /api/users/{id} if needed.
-   * Defaults to false until loaded.
-   */
   verified: boolean;
 }

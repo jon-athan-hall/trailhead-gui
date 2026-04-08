@@ -1,6 +1,7 @@
 export { AuthProvider } from './hooks/auth-context';
 export { useAuth } from './hooks/use-auth';
 export { RequireAuth, RequireRole } from './guards';
+export { ResendVerificationBanner } from './components/resend-verification-banner';
 export { useLoginMutation } from './api/use-login';
 export { useRegisterMutation } from './api/use-register';
 export { useLogoutMutation } from './api/use-logout';

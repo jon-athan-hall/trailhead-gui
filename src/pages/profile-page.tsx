@@ -1,6 +1,11 @@
-import { Alert, Container, Divider, Stack, Title } from '@mantine/core';
+import { Alert, Container, Divider, Group, Stack, Title } from '@mantine/core';
+import { ResendVerificationBanner } from '../features/auth';
 import { useAuth } from '../features/auth/hooks/use-auth';
-import { ChangePasswordForm, ProfileDetailsForm } from '../features/users';
+import {
+  ChangePasswordForm,
+  ProfileDetailsForm,
+  UserVerifiedBadge
+} from '../features/users';
 
 export function ProfilePage() {
   const { user, updateUser } = useAuth();
@@ -16,7 +21,11 @@ export function ProfilePage() {
   return (
     <Container size="sm" py="xl">
       <Stack gap="xl">
-        <Title order={2}>Your profile</Title>
+        <Group justify="space-between" align="center">
+          <Title order={2}>Your profile</Title>
+          <UserVerifiedBadge verified={user.verified} />
+        </Group>
+        {!user.verified && <ResendVerificationBanner />}
         <ProfileDetailsForm
           userId={user.id}
           initialName={user.name}

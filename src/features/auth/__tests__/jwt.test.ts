@@ -14,6 +14,7 @@ const baseClaims: JwtClaims = {
   email: 'jane@example.com',
   name: 'Jane Doe',
   roles: ['ROLE_USER'],
+  verified: true,
   iss: 'trailhead-api',
   iat: 0,
   exp: Math.floor(Date.now() / 1000) + 3600
@@ -51,7 +52,18 @@ describe('userFromClaims', () => {
       name: 'Jane Doe',
       email: 'jane@example.com',
       roles: ['ROLE_USER'],
-      verified: false
+      verified: true
     });
+  });
+
+  it('reflects an unverified user', () => {
+    const user = userFromClaims({ ...baseClaims, verified: false });
+    expect(user.verified).toBe(false);
+  });
+
+  it('falls back to false when the verified claim is missing (legacy tokens)', () => {
+    const { verified: _verified, ...claimsWithoutVerified } = baseClaims;
+    const user = userFromClaims(claimsWithoutVerified as JwtClaims);
+    expect(user.verified).toBe(false);
   });
 });

@@ -32,6 +32,10 @@ export function userFromClaims(claims: JwtClaims): AuthUser {
     name: claims.name,
     email: claims.email,
     roles: claims.roles ?? [],
-    verified: false
+    // Defensive ?? false for the brief deployment window where the backend
+    // may have already issued tokens without this claim. Once all tokens
+    // pre-dating the backend change have expired, the fallback is dead code
+    // but harmless.
+    verified: claims.verified ?? false
   };
 }
