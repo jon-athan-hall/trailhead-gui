@@ -1,8 +1,8 @@
 import { Alert, Button, Container, Stack, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Link } from 'react-router-dom';
-import { useForgotPasswordMutation } from '../features/auth/api/use-forgot-password';
-import { ApiError } from '../shared/api/errors';
+import { useForgotPasswordMutation } from '../features/auth';
+import { ApiError } from '../common/api/errors';
 
 export function ForgotPasswordPage() {
   const forgotMutation = useForgotPasswordMutation();

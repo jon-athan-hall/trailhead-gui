@@ -1,12 +1,12 @@
 import { Container, Stack, Title } from '@mantine/core';
 import { useState } from 'react';
-import { useRolesQuery } from '../features/roles';
+import { useRolesQuery } from '../features/role';
 import {
   DeleteUserConfirm,
   UserRolesModal,
   UsersTable,
   type UserResponse
-} from '../features/users';
+} from '../features/user';
 
 export function UsersPage() {
   const rolesQuery = useRolesQuery();

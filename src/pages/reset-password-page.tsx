@@ -1,8 +1,8 @@
 import { Alert, Button, Container, PasswordInput, Stack, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useResetPasswordMutation } from '../features/auth/api/use-reset-password';
-import { ApiError } from '../shared/api/errors';
+import { useResetPasswordMutation } from '../features/auth';
+import { ApiError } from '../common/api/errors';
 
 export function ResetPasswordPage() {
   const [searchParams] = useSearchParams();

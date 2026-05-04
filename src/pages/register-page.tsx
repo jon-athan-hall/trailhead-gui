@@ -1,8 +1,8 @@
 import { Alert, Button, Container, PasswordInput, Stack, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRegisterMutation } from '../features/auth/api/use-register';
-import { ApiError } from '../shared/api/errors';
+import { useRegisterMutation } from '../features/auth';
+import { ApiError } from '../common/api/errors';
 
 export function RegisterPage() {
   const navigate = useNavigate();

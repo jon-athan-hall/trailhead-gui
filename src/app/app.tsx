@@ -2,7 +2,7 @@ import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '../features/auth/hooks/auth-context';
+import { AuthProvider } from '../features/auth';
 import { AppRouter } from './app-router';
 
 const queryClient = new QueryClient({

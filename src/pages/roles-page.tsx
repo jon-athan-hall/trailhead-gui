@@ -5,7 +5,7 @@ import {
   RoleFormModal,
   RolesTable,
   type RoleResponse
-} from '../features/roles';
+} from '../features/role';
 
 export function RolesPage() {
   const [formOpen, setFormOpen] = useState(false);

@@ -1,11 +1,10 @@
 import { Alert, Container, Divider, Group, Stack, Title } from '@mantine/core';
-import { ResendVerificationBanner } from '../features/auth';
-import { useAuth } from '../features/auth/hooks/use-auth';
+import { ResendVerificationBanner, useAuth } from '../features/auth';
 import {
   ChangePasswordForm,
   ProfileDetailsForm,
   UserVerifiedBadge
-} from '../features/users';
+} from '../features/user';
 
 export function ProfilePage() {
   const { user, updateUser } = useAuth();

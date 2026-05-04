@@ -1,5 +1,5 @@
 import { Alert, Button, Group, Stack, Text } from '@mantine/core';
-import { ApiError } from '../../../shared/api/errors';
+import { ApiError } from '../../../common/api/errors';
 import { useResendVerificationMutation } from '../api/use-resend-verification';
 
 export function ResendVerificationBanner() {

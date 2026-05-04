@@ -1,7 +1,7 @@
 import { Alert, Button, Container, Loader, Stack, Title } from '@mantine/core';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useVerifyEmailQuery } from '../features/auth/api/use-verify-email';
-import { ApiError } from '../shared/api/errors';
+import { useVerifyEmailQuery } from '../features/auth';
+import { ApiError } from '../common/api/errors';
 
 export function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
